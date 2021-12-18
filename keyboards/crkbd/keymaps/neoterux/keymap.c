@@ -23,10 +23,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     [ LAYER DEFINITIONS ]
 */
 enum {
-    _QWERTY,
-    _LEVEL2,
-    _LEVEL3,
-    _DVORAK
+    _QWERTY=0,
+    _LEVEL2=2,
+    _LEVEL3=3,
+    _DVORAK=1
 } CRKBD_LAYERS;
 
 /*
@@ -36,12 +36,14 @@ enum {
 #define KC_2L MO(_LEVEL2)
 // Key to change to 3rd-layer
 #define KC_3L MO(_LEVEL3)
+//#define KC_DL MO()
 // Key to change to change layout
 #define KC_CLL MO(3)
 // Key to change to QWERTY
-#define LYR_QWR DF(_QWERTY)
+#define LYR_QWR TO(_QWERTY)
 // Key to change to DVORAK
-#define LYR_DVK DF(_DVORAK)
+//#define LYR_DVK DF(_DVORAK)
+#define LYR_DVK TO(_DVORAK)
 // Key to open terminal <MACRO> ctrl + alt + T
 #define KC_TERM LCTL(LALT(KC_T))
 // Key to make a screenshot <MACRO> shift + win + S
@@ -72,11 +74,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_LEVEL2] = LAYOUT_split_3x6_3(
         //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            KC_TAB,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
+            KC_GRAVE,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_CAPS, ALT_TAB, XXXXXXX, XXXXXXX, KC_TERM, KC_HOME,                      KC_END, XXXXXXX, XXXXXXX, XXXXXXX,  KC_UP,    KC_DEL,
+            KC_TAB,  ALT_TAB, XXXXXXX, XXXXXXX, KC_TERM, KC_HOME,                      KC_END, XXXXXXX, XXXXXXX, XXXXXXX,  KC_UP,    KC_DEL,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, KC_SCRN, LYR_QWR,                     LYR_QWR, XXXXXXX, XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT,
+            KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, KC_SCRN, LYR_DVK,                     LYR_QWR, XXXXXXX, XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT,
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                                 KC_LGUI, _______,  KC_SPC,     KC_ENT,   KC_3L, KC_RALT
                                             //`--------------------------'  `--------------------------'
@@ -96,9 +98,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_DVORAK] = LAYOUT_split_3x6_3(
         //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            KC_ESC,    KC_SCLN, KC_COMMA,KC_DOT,  KC_P,    KC_Y,                         KC_F,    KC_G,    KC_C,    KC_R,   KC_L,  KC_BSPC,
+            KC_ESC , KC_SCLN,KC_COMMA,  KC_DOT,    KC_P,    KC_Y,                         KC_F,    KC_G,    KC_C,    KC_R,   KC_L,  KC_BSPC,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_TAB,     KC_A,    KC_O,    KC_E,    KC_U,    KC_I,                         KC_D,    KC_H,    KC_T,    KC_N,   KC_S,  KC_SLSH,
+            KC_TAB ,    KC_A,    KC_O,    KC_E,    KC_U,    KC_I,                         KC_D,    KC_H,    KC_T,    KC_N,   KC_S,  KC_SLSH,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LSFT,  KC_QUOT,   KC_Q,    KC_J,    KC_K,    KC_X,                         KC_B,    KC_M,    KC_W,    KC_V,   KC_Z,  KC_LALT,
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
