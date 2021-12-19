@@ -45,9 +45,11 @@ enum {
 //#define LYR_DVK DF(_DVORAK)
 #define LYR_DVK TO(_DVORAK)
 // Key to open terminal <MACRO> ctrl + alt + T
-#define KC_TERM LCTL(LALT(KC_T))
+//#define KC_TERM LCTL(LALT(KC_T))
+#define KC_TERM LCA(KC_T)
 // Key to make a screenshot <MACRO> shift + win + S
-#define KC_SCRN LSFT(LWIN(KC_S))
+//#define KC_SCRN LSFT(LWIN(KC_S))
+#define KC_SCRN SGUI(KC_S)
 // Alt + Tab macro
 #define ALT_TAB LALT(KC_TAB)
 
@@ -62,9 +64,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // Layouts defined in 'layouts.c' file
     [_QWERTY] = LAYOUT_split_3x6_3(
         //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            KC_ESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
+            KC_GESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_TAB,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN,  KC_QUOT,
+            KC_TAB ,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ENT,
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -78,7 +80,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_TAB,  ALT_TAB, XXXXXXX, XXXXXXX, KC_TERM, KC_HOME,                      KC_END, XXXXXXX, XXXXXXX, XXXXXXX,  KC_UP,    KC_DEL,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, KC_SCRN, LYR_DVK,                     LYR_QWR, XXXXXXX, XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT,
+            KC_LSFT, KC_LALT, XXXXXXX, XXXXXXX, KC_SCRN, LYR_DVK,                     LYR_QWR, XXXXXXX, XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT,
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                                 KC_LGUI, _______,  KC_SPC,     KC_ENT,   KC_3L, KC_RALT
                                             //`--------------------------'  `--------------------------'
@@ -88,9 +90,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //,-----------------------------------------------------.                    ,-----------------------------------------------------.
             KC_GRAVE,KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_F1,     KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                      KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, KC_BSLS,  KC_GRV,
+            KC_F1,     KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                      KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, KC_PIPE, _______,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_F7,     KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,                      KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, KC_TILD,
+            KC_F7,     KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,                      KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_BSLS, _______,
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                                 KC_LGUI,   KC_2L,  KC_SPC,     KC_ENT, _______, KC_RALT
                                             //`--------------------------'  `--------------------------'
@@ -113,10 +115,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     keycode: the code of the pressed key
     record: 'object' that handles actions (pressed, etc)
 */
-// bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
-//     return true;
-// }
+     return true;
+}
 
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
@@ -180,7 +182,7 @@ void set_keylog(uint16_t keycode, keyrecord_t *record) {
 void oled_render_keylog(void) {
     oled_write(keylog_str, false);
 }
-
+#ifdef BOOTMAGIC_ENABLE
 void render_bootmagic_status(bool status) {
     /* Show Ctrl-Gui Swap options */
     static const char PROGMEM logo[][2][3] = {
@@ -195,6 +197,7 @@ void render_bootmagic_status(bool status) {
         oled_write_ln_P(logo[1][1], false);
     }
 }
+#endif // BOOTMAGIC_ENABLE
 
 void oled_render_logo(void) {
     static const char PROGMEM crkbd_logo[] = {
@@ -212,7 +215,7 @@ bool oled_task_user(void) {
     } else {
         oled_render_logo();
     }
-    return 1;
+    return false;
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
