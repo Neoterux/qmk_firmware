@@ -33,6 +33,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TAPPING_FORCE_HOLD
 #define TAPPING_TERM 100
 
+#ifdef OLED_ENABLE
+    #define OLED_TIMEOUT 1750           // Timeout in ms
+    #define OLED_FADE_OUT               // Enable OLED fade out effect
+    #define OLED_FADE_OUT_INTERVAL 7    // Set the interval of fade out effect [0-15] (Larger values are slower).
+    #define OLED_UPDATE_INTERVAL 16     // Set the OLED update interval in ms [default: 60 fps].
+#endif
+
 #ifdef RGBLIGHT_ENABLE
     #undef RGBLED_NUM
     #define RGBLIGHT_ANIMATIONS
