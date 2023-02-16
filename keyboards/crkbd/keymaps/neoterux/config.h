@@ -24,9 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* Select hand configuration */
 
-#define MASTER_LEFT
-// #define MASTER_RIGHT
-// #define EE_HANDS
+// #define MASTER_LEFT /* Define the master as left */
+// #define MASTER_RIGHT /* Define the master as right */
+#define EE_HANDS /* Independent master, each controller recognize its side */
 
 // #define USE_SERIAL_PD2
 

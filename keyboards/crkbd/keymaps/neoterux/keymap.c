@@ -17,45 +17,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include QMK_KEYBOARD_H
-//#include <stdio.h>
+#include "ckeys.h"
 
 /*
     [ LAYER DEFINITIONS ]
 */
 enum {
-    _QWERTY=0,
-    _LEVEL2=2,
-    _LEVEL3=3,
-    _DVORAK=1
+    _QWERTY = 0,
+    _DVORAK,
+    _LEVEL2,
+    _LEVEL3,
+    _MACRO,
 } CRKBD_LAYERS;
 
-/*
-    [ Custom Keys Definitions ]
-*/
-// Key to change to 2nd-layer
-#define KC_2L MO(_LEVEL2)
-// Key to change to 3rd-layer
-#define KC_3L MO(_LEVEL3)
-//#define KC_DL MO()
-// Key to change to change layout
-#define KC_CLL MO(3)
-// Key to change to QWERTY
-#define LYR_QWR TO(_QWERTY)
-// Key to change to DVORAK
-//#define LYR_DVK DF(_DVORAK)
-#define LYR_DVK TO(_DVORAK)
-// Key to open terminal <MACRO> ctrl + alt + T
-//#define KC_TERM LCTL(LALT(KC_T))
-#define KC_TERM LCA(KC_T)
-// Key to make a screenshot <MACRO> shift + win + S
-//#define KC_SCRN LSFT(LWIN(KC_S))
-#define KC_SCRN SGUI(KC_S)
-// Alt + Tab macro
-#define ALT_TAB LALT(KC_TAB)
+
 
 extern uint8_t is_master;
-
-
 
 /*
     # [ KeyMaps Definitions ]
@@ -70,7 +47,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ENT,
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                                KC_LCTL,   KC_2L,  KC_SPC,     KC_CAPS,   KC_3L, KC_RALT
+                                                KC_LCTL,   KC_2L,  KC_SPC,     KC_CAPS,  KC_3L, KC_ALGR
                                             //`--------------------------'  `--------------------------'
         ),
 
@@ -78,11 +55,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //,-----------------------------------------------------.                    ,-----------------------------------------------------.
             KC_GRAVE,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_TAB,  ALT_TAB, XXXXXXX, XXXXXXX, KC_TERM, KC_HOME,                      KC_END, XXXXXXX, XXXXXXX, XXXXXXX,  KC_UP,    KC_DEL,
+            KC_TAB,  ALT_TAB, XXXXXXX, XXXXXXX, KC_TERM, KC_HOME,                       KC_END, XXXXXXX, XXXXXXX, XXXXXXX,  KC_UP,    KC_DEL,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_LSFT, KC_LALT, XXXXXXX, XXXXXXX, KC_SCRN, LYR_DVK,                     LYR_QWR, XXXXXXX, XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT,
+            KC_LSFT, KC_LALT, XXXXXXX, XXXXXXX, KC_SCRN, LYR_DVK,                      LYR_QWR, XXXXXXX, XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT,
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                                KC_LGUI, _______,  KC_SPC,     KC_ENT,   KC_3L, KC_RALT
+                                                KC_LGUI, _______,  KC_SPC,    KC_COMP, KC_MCRO, KC_ALGR
                                             //`--------------------------'  `--------------------------'
         ),
 
@@ -90,11 +67,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //,-----------------------------------------------------.                    ,-----------------------------------------------------.
             KC_GRAVE,KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_F1,     KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                      KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, KC_PIPE, _______,
+            KC_F1,     KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                      KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, KC_PIPE,  KC_DEL,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_F7,     KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,                      KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_BSLS, _______,
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                                KC_LGUI,   KC_2L,  KC_SPC,     KC_ENT, _______, KC_RALT
+                                                KC_LGUI,   KC_2L,  KC_SPC,     KC_ENT, _______, KC_LALT
                                             //`--------------------------'  `--------------------------'
         ),
 
@@ -104,11 +81,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_TAB ,    KC_A,    KC_O,    KC_E,    KC_U,    KC_I,                         KC_D,    KC_H,    KC_T,    KC_N,   KC_S,  KC_SLSH,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_LSFT,  KC_QUOT,   KC_Q,    KC_J,    KC_K,    KC_X,                         KC_B,    KC_M,    KC_W,    KC_V,   KC_Z,  KC_LALT,
+            KC_LSFT,  KC_QUOT,   KC_Q,    KC_J,    KC_K,    KC_X,                         KC_B,    KC_M,    KC_W,    KC_V,   KC_Z,  KC_ENT,
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                                KC_LCTL,   KC_2L,  KC_SPC,     KC_ENT,   KC_3L, KC_ALGR
+                                                KC_LCTL,   KC_2L,  KC_SPC,     KC_CAPS,  KC_3L, KC_ALGR
                                             //`--------------------------'  `--------------------------'
         ),
+#ifdef ENABLE_MACRO_LAYER
+    [_MACRO] = LAYOUT_split_3x6_3(
+        //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+            KC_GRAVE,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
+        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+            KC_TAB,  ALT_TAB, XXXXXXX, XXXXXXX, KC_TERM, KC_HOME,                      KC_END, XXXXXXX, XXXXXXX, XXXXXXX,  KC_UP,    KC_DEL,
+        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+            KC_LSFT, KC_LALT, XXXXXXX, XXXXXXX, KC_SCRN, LYR_DVK,                     LYR_QWR, XXXXXXX, XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT,
+        //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                                KC_LGUI, _______,  KC_SPC,    KC_COMP,   KC_3L, KC_ALGR
+                                            //`--------------------------'  `--------------------------'
+    ),
+#endif
 };
 
 /* Executed while user input something
@@ -116,7 +106,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     record: 'object' that handles actions (pressed, etc)
 */
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-
      return true;
 }
 
