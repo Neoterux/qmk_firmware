@@ -16,6 +16,7 @@ NKRO_ENABLE         = yes       # Enable N-key Rollover
 COMBO_ENABLE        = no        # Enable key combo feature
 LEADER_ENABLE       = no        # Enable leader key chording
 # BOOTLOADER        = atmel-dfu # Set the Bootloader
+BOOTLOADER          = caterina
 EXTRAKEY_ENABLE     = no        # Audio Control and System control keys (+450 Bytes)
 MIDI_ENABLE         = no        # MIDI controls
 AUDIO_ENABLE        = no        # Audio output on port c6
