@@ -15,17 +15,11 @@
 #define KC_2L MO(_LEVEL2)
 // Key to change to 3rd-layer
 #define KC_3L MO(_LEVEL3)
-//#define KC_DL MO()
-// Key to change to change layout
-#define KC_CLL MO(3)
 // Key to change to QWERTY
 #define LYR_QWR TO(_QWERTY)
-// Key to change to DVORAK
-//#define LYR_DVK DF(_DVORAK)
-#define LYR_DVK TO(_DVORAK)
 // Key to open terminal <MACRO> ctrl + alt + T
-//#define KC_TERM LCTL(LALT(KC_T))
-#define KC_TERM LCA(KC_T)
+#define KC_TERM LWIN(KC_Q)
+#define KC_KILL LWIN(KC_C)
 // Key to make a screenshot <MACRO> shift + win + S
 //#define KC_SCRN LSFT(LWIN(KC_S))
 #define KC_SCRN SGUI(KC_S)
@@ -33,9 +27,31 @@
 #define ALT_TAB LALT(KC_TAB)
 
 #define KC_COMP LCTL(KC_SPACE)
+/** @deprecated  Use HYRPCTL*/
+#define KC_MCRO MO(_HYPR)
 
-#ifdef ENABLE_MACRO
-    #define KC_MCRO _MO(_MACRO)
-#else
-    #define KC_MCRO KC_3L //_______
-#endif
+/**
+ * Hyperland Control Layer Key Switch
+ */
+#define HPRCTL MO(_HYPR)
+
+/*************************
+ * Hyperland macro keys  *
+ *************************/
+// Hyperland Quick Keys
+// Launch a new selection
+#define HPR_LCH LWIN(KC_R)
+// Open terminal
+#define HYPR_TERM LWIN(KC_Q)
+// Take a screenshot
+#define HYPRSHOT SGUI(KC_S)
+// Toggle Floating Windows
+#define HYPRTGGL LWIN(KC_V)
+// Translate a window to special workspace
+#define HYPRSPC LWIN(KC_P)
+
+// HELPER KEYS that only allows me to align keys in the keymaps
+#define XXXXX  XXXXXXX
+#define XXXXXX XXXXXXX
+
+
