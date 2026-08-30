@@ -26,11 +26,18 @@ enum layer_names {
 #define HYPR_TGGL LWIN(KC_V)  // Toggle floating
 #define HYPR_SPC  LWIN(KC_P)  // Move window to special workspace
 
+enum custom_keycodes {
+    SMART_ENT = SAFE_RANGE,
+};
+
+// Hold past this long (ms) before release triggers ";" + Enter instead of plain Enter
+#define SMART_ENT_TERM 200
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_BASE] = LAYOUT(
                         KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_DEL,
     KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_BSPC,
-    CAPS_LO,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_ENT,   KC_ENT,
+    CAPS_LO,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     SMART_ENT,KC_ENT,
     KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,             KC_SLSH,
     KC_LCTL,  KC_LGUI,  KC_LALT,            KC_SPC,                   SP_RA,                  KC_RALT,  LOWER,    KC_SYRQ
 	),
@@ -59,4 +66,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 layer_state_t layer_state_set_user(layer_state_t state) {
   return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    static uint16_t smart_ent_timer = 0;
+
+    switch (keycode) {
+        case SMART_ENT:
+            if (record->event.pressed) {
+                smart_ent_timer = timer_read();
+            } else {
+                if (timer_elapsed(smart_ent_timer) < SMART_ENT_TERM) {
+                    tap_code(KC_ENT);
+                } else {
+                    tap_code(KC_SCLN);
+                    tap_code(KC_ENT);
+                }
+            }
+            return false;
+    }
+    return true;
 }
