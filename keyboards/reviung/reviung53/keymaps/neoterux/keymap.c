@@ -15,9 +15,15 @@ enum layer_names {
 #define RAISE  MO(_RAISE)
 #define ADJUST MO(_ADJUST)
 
-#define SF_SS RSFT_T(KC_SLSH)
-#define SP_LO LT(LOWER, KC_SPC)
 #define SP_RA LT(RAISE, KC_SPC)
+
+// Hyprland quick actions (same bindings as the crkbd keymap)
+#define HYPR_TERM LWIN(KC_Q)  // Open terminal
+#define HYPR_LCH  LWIN(KC_R)  // App launcher
+#define HYPR_KILL LWIN(KC_C)  // Kill focused window
+#define HYPR_SHOT SGUI(KC_S)  // Screenshot (region)
+#define HYPR_TGGL LWIN(KC_V)  // Toggle floating
+#define HYPR_SPC  LWIN(KC_P)  // Move window to special workspace
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_BASE] = LAYOUT(
@@ -43,9 +49,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	),
 	[_ADJUST] = LAYOUT(
                         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  QK_BOOT,
-    RGB_VAI,   RGB_SAI, RGB_HUI,  RGB_MOD,  XXXXXXX,  RGB_TOG,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-    RGB_VAD,   RGB_SAD, RGB_HUD,  RGB_RMOD, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX,
+    XXXXXXX,  HYPR_TERM,XXXXXXX,  XXXXXXX,  HYPR_LCH, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  HYPR_SPC, XXXXXXX,  XXXXXXX,
+    XXXXXXX,  XXXXXXX,  HYPR_SHOT,XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
+    XXXXXXX,  XXXXXXX,  XXXXXXX,  HYPR_KILL,HYPR_TGGL,XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX,
     XXXXXXX,  XXXXXXX,  XXXXXXX,               _______,                 _______,              XXXXXXX,  XXXXXXX,  XXXXXXX
 	),
 };
